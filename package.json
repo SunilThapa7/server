@@ -1,7 +1,7 @@
 {
   "name": "server-setup",
   "version": "1.0.0",
-  "description": "server setup demonstration",
+  "description": "server setup with express and swagger - Code by Amrendra Chaurasia",
   "main": "index.js",
   "type": "module",
   "scripts": {

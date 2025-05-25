@@ -93,9 +93,11 @@ router.post('/login', async (req, res) => {
         if (result.length > 0) {
             if (result[0].password === password) {
                 return res.status(200).json({
-                    id: result[0].id,
-                    email: result[0].email,
-                    role: result[0].role,
+                    user: {
+                        id: result[0].id,
+                        email: result[0].email,
+                        role: result[0].role,
+                    }
                 });
             } else {
                 return res.status(401).json({ message: 'Invalid password' });

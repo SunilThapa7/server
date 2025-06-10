@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const query = 'SELECT id, email, password, role FROM users WHERE email = ?;';
+        const query = 'SELECT id, email, password, role, name FROM users WHERE email = ?;';
         const result = await executeQuery(query, [email]);
 
         if (result.length > 0) {
@@ -95,6 +95,7 @@ router.post('/login', async (req, res) => {
                 return res.status(200).json({
                     user: {
                         id: result[0].id,
+                        name: result[0].name,
                         email: result[0].email,
                         role: result[0].role,
                     }

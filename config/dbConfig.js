@@ -13,7 +13,7 @@ const execute = createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'csit_project',
+    database: 'agriconnect',
     port: 3306,
     multipleStatements: true
 });

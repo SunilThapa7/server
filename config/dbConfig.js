@@ -9,25 +9,23 @@ export const url = `http://${host}:${port}`;
 export const addressIp = address();
 export const urlIp = `http://${addressIp}:${port}`;
 // CREATING CONNECTION
-const execute = createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'agriconnect',
+const db = createConnection({
+    host: 'localhost', // hardcoded, not using .env
+    user: 'root',      // hardcoded, not using .env
+    password: '',      // hardcoded, not using .env
+    database: 'agriconnect', // hardcoded, not using .env
     port: 3306,
     multipleStatements: true
 });
 
 // CONNECTING TO DATABASE
-execute.connect(function (err) {
+db.connect(function (err) {
     if (err) {
         console.log(err, "\nError in database connection.");
     } else {
-
         console.log(`System started on\n localhost: ${url} \n server: ${urlIp}`);
         console.log("Database connection is successfull.");
     }
 });
 
-const connection = execute;
-export default connection;
+export default db;

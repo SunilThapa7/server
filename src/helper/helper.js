@@ -12,7 +12,7 @@ export async function executeQuery(query, values) {
         return result;
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: error.message });
+        throw error;
     }
 }
 

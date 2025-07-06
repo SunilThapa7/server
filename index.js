@@ -7,6 +7,7 @@ import specs from './config/swagger.js';
 
 //import of all the controllers
 import { authUserManagement } from './src/controllers/authUserManagement.controller.js';
+import marketRoutes from './src/routes/market.routes.js';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // API routes
 app.use('/authUser', authUserManagement);
+app.use('/market', marketRoutes);
 
 // Start server
 app.listen(port, () => {

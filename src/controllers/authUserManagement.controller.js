@@ -196,5 +196,89 @@ router.patch('/updateUser', async (req, res) => {
 });
 
 //#endregion
+//#region Swagger Documentation and API for deleteUser
+/**
+ * @swagger
+ * /authUser/deleteUser:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user to delete
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *       404:
+ *         description: User not found
+ *       400:
+ *         description: Invalid user ID
+ */
+router.delete('/deleteUser', async (req, res) => {
+    const userId = parseInt(req.query.id);
+
+    if (!userId || userId <= 0) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    try {
+        const checkQuery = 'SELECT * FROM users WHERE id = ?;';
+        const checkResult = await executeQuery(checkQuery, [userId]);
+
+        if (checkResult.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const deleteQuery = 'DELETE FROM users WHERE id = ?;';
+        const deleteResult = await executeQuery(deleteQuery, [userId]);
+
+        return res.status(200).json({ message: 'User deleted successfully', affectedRows: deleteResult.affectedRows });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+//#endregion
+
+/**
+ * @swagger
+ * /authUser/profile:
+ *   get:
+ *     summary: Get a single user's profile by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *     responses:
+ *       200:
+ *         description: User profile
+ *       404:
+ *         description: User not found
+ */
+router.get('/profile', async (req, res) => {
+    const userId = parseInt(req.query.id);
+    if (!userId || userId <= 0) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+    }
+    try {
+        const query = 'SELECT id, name, email, gender, role FROM users WHERE id = ?;';
+        const result = await executeQuery(query, [userId]);
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json(result[0]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 export const authUserManagement = router;
